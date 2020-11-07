@@ -2,13 +2,19 @@
 Unit tests for the lists app
 """
 from django.test import TestCase
+from django.urls import resolve
 
-class SmokeTest(TestCase):
+from lists.views import home_page
+
+
+class HomePageTest(TestCase):
     """
-    Unit test that is guaranteed to fail
+    Test for the list app's home page
     """
-    def test_bad_maths(self):
+    def test_root_url_resolves_to_home_page_view(self):
         """
-        Maths test that will fail
+        Unit test to check that the root URL can be resolved and
+        calls the home_page view
         """
-        self.assertEqual(1 + 1, 3)
+        found = resolve('/')
+        self.assertEqual(found.func, home_page)

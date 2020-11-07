@@ -1,3 +1,10 @@
+"""
+Views for the lists app of superlists
+"""
 from django.shortcuts import render
 
-# Create your views here.
+def home_page():
+    """
+    View to render our home page
+    """
+    pass
