@@ -21,9 +21,39 @@ class HomePageTest(TestCase):
         """
         Unit test that checks that input box on the home page saves with a POST request
         """
-        response = self.client.post('/', data={'item_text': 'A new list item'})
-        self.assertIn('A new list item', response.content.decode())
-        self.assertTemplateUsed(response, 'lists/home.html')
+        self.client.post('/', data={'item_text': 'A new list item'})
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+    def test_redirects_after_post(self):
+        """
+        Unit test that checks that home page redirects after a POST request
+        """
+        response = self.client.post('/', data={'item_text': 'A new list test item'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_only_saves_items_when_necessary(self):
+        """
+        Unit test to check that the database does not store item when the home page
+        it visited, without the input field being filled
+        """
+        self.client.get('/')
+        self.assertEqual(Item.objects.count(), 0)
+
+    def test_displays_all_list_items(self):
+        """
+        Unit test to check home page displays multiple items in a to-do list
+        """
+        Item.objects.create(text='My item 1')
+        Item.objects.create(text='My item two')
+
+        response = self.client.get('/')
+
+        self.assertIn('My item 1', response.content.decode())
+        self.assertIn('My item two', response.content.decode())
 
 
 class ItemModelTest(TestCase):
