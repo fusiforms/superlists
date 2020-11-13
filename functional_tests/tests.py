@@ -2,14 +2,14 @@
 Functional test for superlists app (a To Do List)
 """
 import time
-import unittest
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     """
-    Class of TestCase to hold the functional tests
+    LiveServerTestCase to hold the functional tests
     for a new visitor to the superlists site
     """
 
@@ -42,7 +42,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # Edith has heard about a new online to-do app.
         # She goes to the browser to check out its homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
@@ -83,6 +83,3 @@ class NewVisitorTest(unittest.TestCase):
         # She visits the URL and sees her to-do list is still there.
 
         # Satisfied, she goes to sleep.
-
-if __name__ == '__main__':
-    unittest.main()
