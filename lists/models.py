@@ -11,7 +11,4 @@ class Item(models.Model):
 
 
     def __str__(self):
-        return
-
-    def __unicode__(self):
-        return
+        return self.text
