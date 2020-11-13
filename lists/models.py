@@ -1,3 +1,17 @@
+"""
+The models for the list app
+"""
 from django.db import models
 
-# Create your models here.
+class Item(models.Model):
+    """
+    Model that holds a single to-do list item
+    """
+    text = models.TextField(default='')
+
+
+    def __str__(self):
+        return
+
+    def __unicode__(self):
+        return
