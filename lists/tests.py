@@ -33,7 +33,7 @@ class HomePageTest(TestCase):
         """
         response = self.client.post('/', data={'item_text': 'A new list test item'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/lists/the-only-list/')
 
     def test_only_saves_items_when_necessary(self):
         """
@@ -43,17 +43,29 @@ class HomePageTest(TestCase):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
 
-    def test_displays_all_list_items(self):
-        """
-        Unit test to check home page displays multiple items in a to-do list
-        """
-        Item.objects.create(text='My item 1')
-        Item.objects.create(text='My item two')
 
-        response = self.client.get('/')
+class ListViewTest(TestCase):
+    """
+    Unit tests for the list app's list view
+    """
+    def test_uses_list_template(self):
+        """
+        Unit test to check list view uses the correct template
+        """
+        response = self.client.get('/lists/the-only-list/')
+        self.assertTemplateUsed(response, 'lists/list.html')
 
-        self.assertIn('My item 1', response.content.decode())
-        self.assertIn('My item two', response.content.decode())
+    def test_displays_all_items(self):
+        """
+        Unit test to check list view page displays multiple items in a to-do list
+        """
+        Item.objects.create(text='My item one')
+        Item.objects.create(text='My item 2')
+
+        response = self.client.get('/lists/the-only-list/')
+
+        self.assertContains(response, 'My item one')
+        self.assertContains(response, 'My item 2')
 
 
 class ItemModelTest(TestCase):
