@@ -10,10 +10,17 @@ def home_page(request):
     """
     View to render our home page
     """
-    if request.method == 'POST':
-        Item.objects.create(text=request.POST['item_text'])
-        return redirect('/lists/the-only-list/')
+    # if request.method == 'POST':
+    #     Item.objects.create(text=request.POST['item_text'])
+    #     return redirect('/lists/the-only-list/')
     return render(request, 'lists/home.html')
+
+def new_list(request):
+    """
+    View to render a new list page
+    """
+    Item.objects.create(text=request.POST['item_text'])
+    return redirect('/lists/the-only-list/')
 
 def view_list(request):
     """
