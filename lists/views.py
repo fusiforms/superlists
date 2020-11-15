@@ -4,7 +4,7 @@ Views for the lists app of superlists
 # from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from lists.models import Item
+from lists.models import Item, List
 
 def home_page(request):
     """
@@ -19,7 +19,8 @@ def new_list(request):
     """
     View to render a new list page
     """
-    Item.objects.create(text=request.POST['item_text'])
+    the_list = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'], list=the_list)
     return redirect('/lists/the-only-list/')
 
 def view_list(request):
