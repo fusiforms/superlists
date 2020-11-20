@@ -21,11 +21,20 @@ def new_list(request):
     """
     the_list = List.objects.create()
     Item.objects.create(text=request.POST['item_text'], list=the_list)
-    return redirect('/lists/the-only-list/')
+    return redirect(f'/lists/{the_list.id}/')
 
-def view_list(request):
+def view_list(request, list_id):
     """
     View to render a list of to-do items
     """
-    items = Item.objects.all()
-    return render(request, 'lists/list.html', {'items': items})
+    the_list = List.objects.get(id=list_id)
+    # items = Item.objects.filter(list=the_list)
+    return render(request, 'lists/list.html', {'list': the_list})
+
+def add_item(request, list_id):
+    """
+    View to add an item to an existing list
+    """
+    the_list = List.objects.get(id=list_id)
+    Item.objects.create(text=request.POST['item_text'], list=the_list)
+    return redirect(f'/lists/{the_list.id}/')

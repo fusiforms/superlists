@@ -20,4 +20,4 @@ class List (models.Model):
     """
 
     def __str__(self):
-        return 'Hello'
+        return f'list {self.id}'

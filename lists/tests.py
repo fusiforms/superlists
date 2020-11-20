@@ -22,22 +22,33 @@ class NewListTest(TestCase):
     """
     Unit tests for the list app's new list creation functionality
     """
-    def test_can_save_a_post_request(self):
+    def test_can_save_a_post_request_to_an_existing_list(self):
         """
-        Unit test that checks that input box on the new list page saves with a POST request
+        Unit test that checks that input box on the list page saves with a POST request
         """
-        self.client.post('/lists/new', data={'item_text': 'A new list item'})
+        other_list = List.objects.create() # pylint: disable=unused-variable
+        correct_list = List.objects.create()
+
+        self.client.post(f'/lists/{correct_list.id}/add_item',
+                         data={'item_text': 'A new item for an existing list'})
 
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
-        self.assertEqual(new_item.text, 'A new list item')
+        self.assertEqual(new_item.text, 'A new item for an existing list')
+        self.assertEqual(new_item.list, correct_list)
 
-    def test_redirects_after_post(self):
+    def test_redirects_to_list_view(self):
         """
-        Unit test that checks that home page redirects after a POST request
+        Unit test that checks that adding an item to a list page redirects
+        to the correct list view
         """
-        response = self.client.post('/lists/new', data={'item_text': 'A new list test item'})
-        self.assertRedirects(response, '/lists/the-only-list/')
+        other_list = List.objects.create() # pylint: disable=unused-variable
+        correct_list = List.objects.create()
+
+        response = self.client.post(f'/lists/{correct_list.id}/add_item',
+                                    data={'item_text': 'A new item for an existing list'})
+
+        self.assertRedirects(response, f'/lists/{correct_list.id}/')
 
 
 class ListViewTest(TestCase):
@@ -48,21 +59,37 @@ class ListViewTest(TestCase):
         """
         Unit test to check list view uses the correct template
         """
-        response = self.client.get('/lists/the-only-list/')
+        the_list = List.objects.create()
+        response = self.client.get(f'/lists/{the_list.id}/')
         self.assertTemplateUsed(response, 'lists/list.html')
 
-    def test_displays_all_items(self):
+    def test_displays_only_items_for_that_list(self):
         """
         Unit test to check list view page displays multiple items in a to-do list
+        and only the items for a specific list
         """
-        only_list = List.objects.create()
-        Item.objects.create(text='My item one', list=only_list)
-        Item.objects.create(text='My item 2', list=only_list)
+        correct_list = List.objects.create()
+        Item.objects.create(text='My item one', list=correct_list)
+        Item.objects.create(text='My item 2', list=correct_list)
+        other_list = List.objects.create()
+        Item.objects.create(text='Your item 3', list=other_list)
+        Item.objects.create(text='Your item 4', list=other_list)
 
-        response = self.client.get('/lists/the-only-list/')
+        response = self.client.get(f'/lists/{correct_list.id}/')
 
         self.assertContains(response, 'My item one')
         self.assertContains(response, 'My item 2')
+        self.assertNotContains(response, 'Your item 3')
+        self.assertNotContains(response, 'Your item 4')
+
+    def test_passes_correct_list_to_template(self,):
+        """
+        Unit test to ensure that the correct list is passed in the context
+        """
+        other_list = List.objects.create() # pylint: disable=unused-variable
+        correct_list = List.objects.create()
+        response = self.client.get(f'/lists/{correct_list.id}/')
+        self.assertEqual(response.context['list'], correct_list)
 
 
 class ListAndItemModelsTest(TestCase):
