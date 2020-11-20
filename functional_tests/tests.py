@@ -1,5 +1,5 @@
 """
-Functional test for superlists app (a To Do List)
+Functional tests for superlists site (a To Do List)
 """
 import time
 from django.test import LiveServerTestCase
@@ -133,3 +133,32 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Buy milk', page_text)
 
         # Satisfied, they both go back to sleep
+
+    def test_layout_and_styling(self):
+        """
+        Unit test to confirm that at least some of the styling is what we expect
+        (to ensure all resources have correctly loaded)
+        """
+        # Edith does to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # She notes that the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
+        # Edith starts a new list and sees that the input box is nicely
+        # centred here too
+        inputbox.send_keys("I'm just testing")
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1: I'm just testing")
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
