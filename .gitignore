@@ -6,7 +6,6 @@ __pycache__
 /.venv
 geckodriver.log
 .DS_Store
-.vscode/.ropeproject/config.py
 .vscode/.ropeproject/objectdb
 
 # Accept these files in the repository
