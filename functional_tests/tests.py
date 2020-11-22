@@ -2,7 +2,7 @@
 Functional tests for superlists site (a To Do List)
 """
 import time
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
@@ -10,9 +10,9 @@ from selenium.webdriver.common.keys import Keys
 MAX_WAIT = 10
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     """
-    LiveServerTestCase to hold the functional tests
+    StaticLiveServerTestCase to hold the functional tests
     for a new visitor to the superlists site
     """
 
