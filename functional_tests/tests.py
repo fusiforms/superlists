@@ -1,6 +1,7 @@
 """
 Functional tests for superlists site (a To Do List)
 """
+import os
 import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
@@ -18,9 +19,13 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         """
-        Initiates the new visitor tests by attaching to the browser
+        Initiates the new visitor tests by attaching to the browser -
+        differentiaites between local dev machine and staging server
         """
         self.browser = webdriver.Chrome()
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
 
     def tearDown(self):
         """
