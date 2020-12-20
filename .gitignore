@@ -1,3 +1,8 @@
+# Important Security - Not in Repository
+*.pem
+azure
+
+# General - Not in Repository
 *.db
 *.sqlite3
 __pycache__
@@ -8,6 +13,7 @@ geckodriver.log
 .DS_Store
 .vscode/.ropeproject/objectdb
 collected_static
+docs/*.html
 
 # Accept these files in the repository
 !.gitignore
