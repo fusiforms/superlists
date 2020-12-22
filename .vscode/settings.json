@@ -12,16 +12,12 @@
         "--load-plugins",
         "pylint_django"
     ],
-    "cSpell.words": [
-        "antialiased",
-        "fieldsets",
-        "freesans",
-        "googleapis",
-        "mkdbuttons",
-        "searchfield",
-        "subpixel",
-        "superlists",
-        "vnet"
+    "pandoc.htmlOptString": "-s -f gfm -t html5 --highlight-style haddock --css=github-pandoc.css",
+    "cSpell.dictionaryDefinitions": [
+
     ],
-    "pandoc.htmlOptString": "-s -f gfm -t html5 --highlight-style haddock --css=github-pandoc.css"
+    "cSpell.enableFiletypes": [
+        "azure-pipelines",
+        "django-html"
+    ]
 }
