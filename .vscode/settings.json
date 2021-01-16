@@ -19,5 +19,14 @@
     "cSpell.enableFiletypes": [
         "azure-pipelines",
         "django-html"
+    ],
+    "cSpell.words": [
+        "mkdir",
+        "pylint",
+        "pylintrc",
+        "runserver",
+        "startproject",
+        "superlists",
+        "venv"
     ]
 }

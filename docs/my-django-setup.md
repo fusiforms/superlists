@@ -97,8 +97,3 @@ Create and edit `.vscode/launch.json` to include:
     find .venv -type l -print
     find .venv -type l -delete
     python -m venv .venv
-
-__hello__ there *banana*
-
-> Blockquote
-> Here is the block quote
