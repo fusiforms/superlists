@@ -1,0 +1,16 @@
+asgiref
+astroid
+Django
+isort
+lazy-object-proxy==1.4.*
+mccabe
+pylint
+pylint-django
+pylint-plugin-utils
+pytz
+selenium
+six
+sqlparse
+toml
+urllib3
+wrapt
