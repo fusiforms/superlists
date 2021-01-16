@@ -6,7 +6,7 @@
         "**/requirements{/**,*}.{txt,in}": "pip-requirements"
     },
     "emmet.includeLanguages": {"django-html": "html"},
-    "python.pythonPath": "/Users/anthony/develop/superlists/.venv/bin/python3",
+    "python.pythonPath": "/Users/anthony/develop/tdd/superlists/.venv/bin/python3",
     "python.linting.pylintEnabled": true,
     "python.linting.pylintArgs": [
         "--load-plugins",
