@@ -2,11 +2,21 @@
 <!-- cSpell:words Elspeth, vnet, nics, mkdir,  -->
 <!-- cSpell:enableCompoundWords -->
 
-# Additional notes for setting up a server on Ubuntu 18.04 LTS
+# Provisioning a new server
+
+Specific details for Ubuntu 18.04 LTS
 
 Refer to Chapter 9 of _Test-Driven Development with Python_
 
 Anthony Montague _16 January 2021_
+
+## Required packages
+
+* nginx
+* Python 3.8
+* pip
+* virtualenv
+* Git
 
 ## Installing Python 3.8
 
@@ -26,3 +36,27 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 200
 # Check for 3.8.7 or higher
 python --version
 ```
+
+## nginx Virtual Host Config
+
+* see `nginx.template.conf`
+* replace SITENAME with e.g. staging.my-domain.com
+
+## systemd Service
+
+* see `gunicorn-systemd.template.service`
+* replace SITENAME with e.g. staging.my-domain.com
+
+## Folder structure
+
+Using the account `username`
+
+```
+/home/username
+└── sites
+    └── SITENAME
+        ├── collected_static
+        ├── database
+        ├── superlists
+        └── virtualenv
+ ```
